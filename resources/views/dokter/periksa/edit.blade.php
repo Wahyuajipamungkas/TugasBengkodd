@@ -37,7 +37,7 @@
 
     <!-- Tambahkan status -->
     <label>Status:</label>
-    <select name="status" class="form-select">
+    <select name="status" class=".form-control-border.border-width-2">
         <option value="menunggu" {{ $periksa->status == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
         <option value="selesai" {{ $periksa->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
     </select>

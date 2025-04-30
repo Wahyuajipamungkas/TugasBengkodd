@@ -26,10 +26,12 @@ public function dokter()
 {
     return $this->belongsTo(User::class, 'id_dokter');
 }
+
 public function obats()
-{
-    return $this->belongsToMany(Obat::class, 'obat_periksa');
-}
+    {
+        return $this->belongsToMany(Obat::class, 'detail_periksas', 'id_periksa', 'id_obat');
+    }
+
 
 public function user()
 {

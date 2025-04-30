@@ -28,14 +28,17 @@ class LoginController extends Controller
      */
    
 
-    protected function authenticated(Request $request, $user)
-    {
-        if ($user->role === 'dokter') {
-            return redirect('/dokter');
-        }
-    
-        return redirect('/home');
-    }
+     protected function authenticated(Request $request, $user)
+     {
+         if ($user->role === 'dokter') {
+             return redirect('/dokter');
+         } elseif ($user->role === 'pasien') {
+             return redirect('/pasien');
+         }
+     
+         return redirect('/home'); // fallback jika role tidak dikenali
+     }
+     
     
     
 

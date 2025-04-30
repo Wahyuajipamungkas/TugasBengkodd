@@ -12,7 +12,7 @@
                 @csrf {{-- harus ada di form untuk proteksi, biar gaada anomali--}}
                 <div class="form-group">
                     <label for="nama">Nama obat</label>
-                    <input type="text" name="name_obat" id="nama" placeholder="Nama obat" class="form-control" required>
+                    <input type="text" name="nama_obat" id="nama" placeholder="Nama obat" class="form-control" required>
 
                 </div>
                 <div class="form-group">

@@ -1,11 +1,15 @@
 <aside class="main-sidebar {{ config('adminlte.classes_sidebar', 'sidebar-dark-primary elevation-4') }}">
 
     {{-- Sidebar brand logo --}}
-    @if(config('adminlte.logo_img_xl'))
+    <!-- @if(config('adminlte.logo_img_xl'))
         @include('adminlte::partials.common.brand-logo-xl')
     @else
         @include('adminlte::partials.common.brand-logo-xs')
-    @endif
+    @endif -->
+    <div >
+        <h2 class="text-white text-center p-1 font-serif">M e d P l u s</h2>
+    </div>
+    <hr class="bg-white">
 
     {{-- Sidebar menu --}}
     <div class="sidebar">
@@ -21,37 +25,71 @@
 
                 @if(request()->is('dokter*'))
                     <li class="nav-item">
-                        <a href="/dokter/periksa" class="nav-link active">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>periksa</p>
+                        <a href="/dokter" class="nav-link active">
+                        <i class="fas fa-chart-line mr-2"></i>
+                            <p>Dashboard</p>
                         </a>
-                        </li>
-                        <li class="nav-item">
-                        <a href="/dokter/obat" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/dokter/periksa" class="nav-link active">
+                        <i class="fas fa-stethoscope mr-2"></i>
+                            <p>Memeriksa</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/dokter/obat" class="nav-link active">
+                        <i class="fas fa-pills mr-2"></i>
                             <p>obat</p>
                         </a>
                     </li>
                 @else 
                     <li class="nav-item">
-                        <a href="/periksa/create/pasien" class="nav-link active">
-                            <i class="far fa-circle nav-icon"></i>
+                        <a href="/pasien" class="nav-link active">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('periksa.create.pasien') }}" class="nav-link active">
+                        <i class="fas fa-user-check mr-2"></i>
                             <p>Periksa</p>
                         </a>
-                        </li>
-                        <li class="nav-item">
-                        <a href="/periksa/store/pasien" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('pasien.riwayat.index') }}" class="nav-link active">
+                        <i class="fas fa-history mr-2"></i>
                             <p>Riwayat</p>
                         </a>
-                        </li>
+                    </li>
                 @endif
 
 
                 {{-- Configured sidebar links --}}
-                @each('adminlte::partials.sidebar.menu-item', $adminlte->menu('sidebar'), 'item')
+                <!-- @each('adminlte::partials.sidebar.menu-item', $adminlte->menu('sidebar'), 'item') -->
             </ul>
         </nav>
     </div>
+    @php( $logout_url = View::getSection('logout_url') ?? config('adminlte.logout_url', 'logout') )
+
+    @if (config('adminlte.use_route_url', false))
+        @php( $logout_url = $logout_url ? route($logout_url) : '' )
+    @else
+        @php( $logout_url = $logout_url ? url($logout_url) : '' )
+    @endif
+    <li class="nav-item mt-3">
+        <a class="nav-link border border-danger text-danger rounded mx-2"
+        href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="fas fa-sign-out-alt mr-2"></i>
+            <span>{{ __('Logout') }}</span>
+        </a>
+        <form id="logout-form" action="{{ $logout_url }}" method="POST" style="display: none;">
+            @if(config('adminlte.logout_method'))
+                {{ method_field(config('adminlte.logout_method')) }}
+            @endif
+            {{ csrf_field() }}
+        </form>
+    </li>
+
+
 
 </aside>

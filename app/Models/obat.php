@@ -14,9 +14,10 @@ class Obat extends Model
         'harga'
     ];
     public function periksas()
-{
-    return $this->belongsToMany(Periksa::class, 'obat_periksa');
-}
+    {
+        return $this->belongsToMany(Periksa::class, 'detail_periksas', 'id_obat', 'id_periksa');
+    }
+    
 
     
 }

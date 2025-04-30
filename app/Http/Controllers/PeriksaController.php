@@ -19,6 +19,13 @@ class PeriksaController extends Controller
         return view('dokter.periksa.create', compact('users', 'dokters'));
     }
 
+    public function riwayatForPasien()
+    {
+        $periksas = Periksa::where('id_pasien', auth()->id())->with('dokter')->get();
+        return view('pasien.riwayat.index', compact('periksas'));
+    }
+
+
     public function create()
     {
         $users = User::where('role', 'pasien')->get();
@@ -63,14 +70,11 @@ class PeriksaController extends Controller
 
     public function createForPasien()
     {
-        if (auth()->user()->role !== 'pasien') {
-            return redirect()->route('home')->with('error', 'Akses ditolak');
-        }
-
         $dokters = User::where('role', 'dokter')->get();
-        return view('pasien.periksa.create', compact('dokters'));
-    }
+        $periksas = Periksa::where('id_pasien', auth()->id())->with('dokter')->get();
 
+        return view('pasien.periksa.create', compact('dokters', 'periksas'));
+    }
     public function storeForPasien(Request $request)
     {
         $request->validate([
@@ -91,11 +95,14 @@ class PeriksaController extends Controller
 
     // Tambahan jika ingin menampilkan daftar untuk dokter
     public function index()
-    {
-        $periksas = Periksa::with(['pasien', 'dokter'])->get();
-         $periksas = Periksa::with('user')->orderBy('status')->get();
-        return view('dokter.periksa.index', compact('periksas'));
-    }
+{
+    // Ambil data pemeriksaan dengan relasi yang dibutuhkan
+    $periksas = Periksa::with(['obats', 'pasien', 'dokter'])->get();
+
+    // Pastikan variabel $periksas dikirimkan ke view
+    return view('dokter.periksa.index', compact('periksas'));
+}
+
 
     public function edit($id)
     {

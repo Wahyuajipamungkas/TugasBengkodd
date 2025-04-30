@@ -19,8 +19,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach($obats as $obat)
+                @foreach($obats as $index => $obat)
                     <tr>
+                        <td>{{ $index + 1 }}</td>
                         <td>{{ $obat->name_obat }}</td>
                         <td>{{ $obat->kemasan }}</td>
                         <td>{{ $obat->harga }}</td>

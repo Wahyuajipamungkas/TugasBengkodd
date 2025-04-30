@@ -7,7 +7,7 @@ use App\Http\Controllers\PeriksaController;
 use App\Http\Controllers\ObatController;
 
 // Default route ke login
-Route::get('/', fn () => view('auth.login'));
+Route::get('/', fn () => view('welcome'));
 
 // Auth bawaan Laravel
 Auth::routes();
@@ -31,6 +31,8 @@ Route::prefix('dokter')->middleware(['auth', 'role:dokter'])->group(function () 
 
 // Route untuk role: pasien
 Route::prefix('pasien')->middleware(['auth', 'role:pasien'])->group(function () {
-    Route::get('periksa/create', [PeriksaController::class, 'createForPasien'])->name('periksa.create.pasien');
-    Route::post('periksa/store', [PeriksaController::class, 'storeForPasien'])->name('periksa.store.pasien');
+    Route::get('/', [HomeController::class, 'pasien'])->name('pasien');
+    Route::get('/create', [PeriksaController::class, 'createForPasien'])->name('periksa.create.pasien');
+    Route::post('/store', [PeriksaController::class, 'storeForPasien'])->name('periksa.store.pasien');
+    Route::get('/riwayat', [PeriksaController::class, 'riwayatForPasien'])->name('pasien.riwayat.index');
 });

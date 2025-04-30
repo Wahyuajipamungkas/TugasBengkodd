@@ -25,4 +25,11 @@ public function dokter()
     $periksas = Periksa::with(['pasien', 'dokter'])->get(); // Pastikan relasi 'pasien' & 'dokter' sudah benar
     return view('dokter.index', compact('periksas'));
 }
+
+public function pasien()
+{
+    $periksas = Periksa::with(['pasien', 'dokter'])->get(); // Pastikan relasi 'pasien' & 'dokter' sudah benar
+    return view('pasien.index', compact('periksas'));
+}
+
 }
