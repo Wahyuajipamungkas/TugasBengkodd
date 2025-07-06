@@ -7,7 +7,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('obat.update', $obat->id) }}" method="POST">
+            <form action="{{ route('dokter.obat.update', $obat->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="d-flex justify-content-end" style="gap:10px;">
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="{{ route('obat.index') }}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ route('dokter.obat.index') }}" class="btn btn-secondary">Kembali</a>
                 </div>
             </form>
         </div>

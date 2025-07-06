@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Obat;
 use Illuminate\Http\Request;
 
-class ObatController extends Controller
+class AdminObatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +14,8 @@ class ObatController extends Controller
     public function index()
     {
         $obats = Obat::all();
-        return view('dokter/obat.index', compact('obats'));
-        
+        return view('admin/obat.index', compact('obats'));
+
     }
 
 
@@ -24,7 +25,7 @@ class ObatController extends Controller
      */
     public function create()
     {
-        return view('dokter/obat.create');
+        return view('admin/obat.create');
     }
 
 
@@ -34,17 +35,21 @@ class ObatController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name_obat' => 'required',
-            'kemasan' => 'required',
-            'harga' => 'required',
+            'name_obat' => 'required|string|max:255',
+            'kemasan' => 'required|string',
+            'harga' => 'required|numeric|min:0',
         ]);
-        
-        // Create the new Obat record
-        Obat::create($request->all());
-        return redirect()->route('obat.index');
+
+        Obat::create([
+            'name_obat' => $request->name_obat,
+            'kemasan' => $request->kemasan,
+            'harga' => $request->harga,
+        ]);
+
+        return redirect()->route('obat.index')->with('success', 'Obat berhasil ditambahkan.');
     }
-    
-    
+
+
 
     /**
      * Display the specified resource.
@@ -59,9 +64,9 @@ class ObatController extends Controller
      */
     public function edit(Obat $obat)
     {
-        return view('dokter.obat.edit', compact('obat'));
+        return view('admin.obat.edit', compact('obat'));
     }
-    
+
     public function update(Request $request, Obat $obat)
     {
         $request->validate([
@@ -69,16 +74,22 @@ class ObatController extends Controller
             'kemasan' => 'required',
             'harga' => 'required',
         ]);
-    
+
         $obat->update($request->all());
-    
+
         return redirect()->route('obat.index')->with('success', 'Data berhasil diperbarui');
     }
-    
-    public function destroy(Obat $obat)
-    {
-        $obat->delete();
-        return redirect()->route('obat.index')->with('success', 'Data berhasil dihapus');
-    }
-    
+
+   public function destroy(Obat $obat)
+{
+    // Hapus relasi dulu (jika kamu ingin paksa hapus)
+    $obat->detailPeriksas()->delete(); // ini hapus semua yang terkait
+
+    // Baru hapus obat
+    $obat->delete();
+
+    return redirect()->route('obat.index')->with('success', 'Obat berhasil dihapus beserta data relasinya');
+}
+
+
 }

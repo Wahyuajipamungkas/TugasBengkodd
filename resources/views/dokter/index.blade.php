@@ -12,15 +12,13 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                       
-
-
-                        <p>Jumlah Pasien Perlu Diperiksa</p>
+                       <h3>{{ $jumlahPeriksa }}</h3>
+                        <p>Jumlah Sudah Diperiksa</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{route('dokter.periksa.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -28,13 +26,13 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        
+                        <h3>{{ $jumlahObat }}</h3>
                         <p>Jumlah Obat</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{route('dokter.obat.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->

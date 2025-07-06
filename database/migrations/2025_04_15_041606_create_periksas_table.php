@@ -12,13 +12,13 @@ return new class extends Migration
         public function up(): void
         {
             Schema::create('periksas', function (Blueprint $table) {
-                $table->bigIncrements('id');
-                $table->unsignedBigInteger('id_pasien');
-                $table->unsignedBigInteger('id_dokter');
+                // $table->bigIncrements('id');
+                $table->id();
+                $table->foreignId('id_daftarpoli')->constrained('daftarpoli')->onDelete('cascade');
                 $table->dateTime('tgl_periksa'); // Ubah ke dateTime
                 $table->text('catatan')->nullable();
                 $table->integer('biaya_periksa')->nullable();
-                 $table->string('status')->default('menunggu');
+                $table->enum('status', ['menunggu', 'selesai'])->default('menunggu');
                 $table->timestamps();
             });
             

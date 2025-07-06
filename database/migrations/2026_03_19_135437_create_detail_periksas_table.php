@@ -9,16 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+   public function up(): void
     {
         Schema::create('detail_periksas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('id_periksa')->constrained('periksa')->on('periksas')->onDelete('cascade');
-            $table->foreignId('id_obat')->constrained('obat')->on('obats')->onDelete('cascade');
 
+            $table->unsignedBigInteger('id_periksa');
+            $table->unsignedBigInteger('id_obat');
+
+            $table->foreign('id_periksa')->references('id')->on('periksas')->onDelete('cascade');
+            $table->foreign('id_obat')->references('id')->on('obats')->onDelete('cascade');
         });
     }
+
 
     /**
      * Reverse the migrations.

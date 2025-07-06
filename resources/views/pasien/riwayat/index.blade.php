@@ -6,51 +6,54 @@
 
 @section('content')
 
-    <table class="table table-bordered bg-light">
-    <thead>
+    <div class="mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
+        <div class="p-4 bg-white shadow-sm sm:p-8 sm:rounded-lg">
+    <table class="table mt-6 overflow-hidden rounded table-hover">
+    <thead class="thead-light">
     <tr>
-        <th>No</th>
-        <th>Nama Pasien</th>
-        <th>Nama Dokter</th>
-        <th>Tanggal Periksa</th>
-        <th>Catatan</th>
-        <th>Biaya</th>
-        <th>Obat</th> 
-        <th>Status</th>
+        <th scope="col">No</th>
+        <th scope="col">Nama Dokter</th>
+        <th scope="col">No Antrian</th>
+        <th scope="col">Tanggal Periksa</th>
+        <th scope="col">Catatan</th>
+        <th scope="col">Biaya</th>
+        <th scope="col">Obat</th> 
+        <th scope="col">Status</th>
     </tr>
 </thead>
 <tbody>
-    @foreach ($periksas as $item)
+    @foreach ($riwayat as $riwayats)
         <tr>
-            <td>{{ $loop->iteration }}</td>
-            <td>{{ $item->pasien->name }}</td>
-            <td>{{ $item->dokter->name }}</td>
-            <td>{{ $item->tgl_periksa }}</td>
-            <td>{{ $item->catatan }}</td>
-            <td>Rp {{ number_format($item->biaya_periksa, 0, ',', '.') }}</td>
-            <td>
-                        @if($item->obats && $item->obats->isNotEmpty())
-                            @foreach($item->obats as $obat)
+            <td scope="row" class="align-middle text-start">{{ $loop->iteration }}</td>
+            <td class="align-middle text-start">{{ $riwayats->jadwalPeriksa->dokter->name }}</td>
+            <td class="align-middle text-start">{{$riwayats->no_antrian}}</td>
+            <td class="align-middle text-start">{{ $riwayats->periksa->tgl_periksa }}</td>
+            <td class="align-middle text-start">{{ $riwayats->periksa->catatan}}</td>
+            <td class="align-middle text-start">Rp {{ number_format($riwayats->periksa->biaya_periksa, 0, ',', '.') }}</td>
+            <td class="align-middle text-start">
+                        @if($riwayats->periksa && $riwayats->periksa->obats->isNotEmpty())
+                            @foreach($riwayats->periksa->obats as $obat)
                                 <span class="badge bg-info text-dark">{{ $obat->name_obat }}</span><br>
                             @endforeach
                         @else
                             <span>Tidak ada obat</span>
                         @endif
                     </td>
-                    <td>
-                    <!-- Menampilkan status -->
-                    <span class="badge 
-                        @if($item->status == 'menunggu') 
-                            bg-warning text-dark 
-                        @elseif($item->status == 'selesai') 
-                            bg-success text-dark 
-                        @endif">
-                        {{ ucfirst($item->status) }}
-                    </span>
-                </td>
+                   <td class="align-middle text-start">
+                        <span class="badge
+                            @if(optional($riwayats->periksa)->status == 'menunggu')
+                                bg-danger text-dark
+                            @elseif(optional($riwayats->periksa)->status == 'selesai')
+                                bg-success text-dark
+                            @endif">
+                            {{ ucfirst(optional($riwayats->periksa)->status ?? '-') }}
+                        </span>
+                    </td>
         </tr>
     @endforeach
 </tbody>
 
     </table>
+    </div>
+    </div>
 @endsection

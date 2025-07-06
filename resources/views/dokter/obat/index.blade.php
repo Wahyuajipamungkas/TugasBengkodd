@@ -5,7 +5,7 @@
 @section('content_body')
     <div class="card">
         <div class="card-header">
-            <a href="{{ route('obat.create') }}" class="btn btn-primary">Tambah Obat</a>
+            <a href="{{ route('dokter.obat.create') }}" class="btn btn-primary">Tambah Obat</a>
         </div>
         <div class="card-body">
             <table class="table">
@@ -26,8 +26,8 @@
                         <td>{{ $obat->kemasan }}</td>
                         <td>{{ $obat->harga }}</td>
                         <td>
-                            <a href="{{ route('obat.edit', $obat->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                            <form action="{{ route('obat.destroy', $obat->id) }}" method="POST" style="display:inline-block;">
+                            <a href="{{ route('dokter.obat.edit', $obat->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('dokter.obat.destroy', $obat->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm"

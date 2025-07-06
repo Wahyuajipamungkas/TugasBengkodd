@@ -1,6 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\DaftarPoli;
+use App\Models\Obat;
+use App\Models\Poli;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Periksa;
 
@@ -10,26 +14,69 @@ class HomeController extends Controller
     {
         $user = Auth::user();
 
-        // Hanya ambil periksa milik pasien yang login
         if ($user->role === 'pasien') {
-            $periksas = Periksa::where('id_pasien', $user->id)->with('dokter')->get();
+            $periksas = Periksa::where('id_pasien', $user->id)->with('dokter', 'admin')->get();
+            return view('pasien.index', compact('periksas'));
+        } elseif ($user->role === 'dokter') {
+             $user = Auth::user();
+            $jumlahPeriksa = \App\Models\Periksa::whereHas('daftarpoli.jadwalperiksa', function ($query) use ($user) {
+                $query->where('id_dokter', $user->id);
+            })->count();
+            $jumlahObat = Obat::count();
+            $jumlahPoli = Poli::count();
+            $periksas = Periksa::where('id_dokter', $user->id)->with('pasien', 'admin')->get();
+            return view('dokter.index', compact('periksas',
+            'jumlahPeriksa',
+            'jumlahObat'));
+        } elseif ($user->role === 'admin') {
+             $jumlahDokter = User::where('role', 'dokter')->count();
+            $jumlahPasien = User::where('role', 'pasien')->count();
+            $jumlahObat = Obat::count();
+            $jumlahPoli = Poli::count();
+            $periksas = Periksa::with(['pasien', 'dokter', 'admin'])->get();
+            return view('admin.index', compact(
+        'jumlahDokter',
+        'jumlahPasien',
+        'periksas',
+        'jumlahObat',
+        'jumlahPoli'));
         } else {
-            $periksas = []; // atau bisa juga Periksa::all() jika admin/dokter
+            abort(403, 'Role tidak dikenali');
         }
-
-        return view('home', compact('periksas'));
     }
 
 public function dokter()
 {
-    $periksas = Periksa::with(['pasien', 'dokter'])->get(); // Pastikan relasi 'pasien' & 'dokter' sudah benar
-    return view('dokter.index', compact('periksas'));
+    $user = Auth::user();
+   $jumlahPeriksa = \App\Models\Periksa::whereHas('daftarpoli.jadwalperiksa', function ($query) use ($user) {
+        $query->where('id_dokter', $user->id);
+    })->count();
+
+    $jumlahObat = Obat::count();
+    $periksas = Periksa::with(['pasien', 'dokter', 'admin'])->get(); // Pastikan relasi 'pasien' & 'dokter' sudah benar
+    return view('dokter.index', compact('periksas',
+            'jumlahPeriksa',
+            'jumlahObat'));
 }
 
 public function pasien()
 {
-    $periksas = Periksa::with(['pasien', 'dokter'])->get(); // Pastikan relasi 'pasien' & 'dokter' sudah benar
+    $periksas = Periksa::with(['pasien', 'dokter', 'admin'])->get(); // Pastikan relasi 'pasien' & 'dokter' sudah benar
     return view('pasien.index', compact('periksas'));
 }
 
+public function admin()
+{
+    $jumlahDokter = User::where('role', 'dokter')->count();
+    $jumlahPasien = User::where('role', 'pasien')->count();
+    $jumlahObat = Obat::count();
+    $jumlahPoli = Poli::count();
+    $periksas = Periksa::with(['pasien', 'dokter', 'admin'])->get(); // Pastikan relasi 'pasien' & 'dokter' sudah benar
+    return view('admin.index', compact(
+        'jumlahDokter',
+        'jumlahPasien',
+        'periksas',
+        'jumlahObat',
+        'jumlahPoli'));
+}
 }

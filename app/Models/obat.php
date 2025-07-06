@@ -17,7 +17,14 @@ class Obat extends Model
     {
         return $this->belongsToMany(Periksa::class, 'detail_periksas', 'id_obat', 'id_periksa');
     }
-    
 
-    
+    // app/Models/Obat.php
+    public function detailPeriksas()
+    {
+        return $this->hasMany(DetailPeriksa::class, 'id_obat');
+    }
+
+
+
+
 }

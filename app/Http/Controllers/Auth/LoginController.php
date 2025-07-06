@@ -34,6 +34,8 @@ class LoginController extends Controller
              return redirect('/dokter');
          } elseif ($user->role === 'pasien') {
              return redirect('/pasien');
+         } elseif ($user->role === 'admin'){
+            return redirect('/admin');
          }
      
          return redirect('/home'); // fallback jika role tidak dikenali

@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('polis', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_poli', 200);
+            $table->text('deskripsi');
             $table->timestamps();
-            $table->string('name')->max(255);
-            $table->string('email')-> unique()-> max(255);
-            $table->string('password')-> max(8);
-            $table->string('no_hp')-> max(50);
-            $table->string('role')->default('user')-> max(50);
-
         });
     }
 
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('poli');
     }
 };

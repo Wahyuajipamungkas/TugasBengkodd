@@ -17,7 +17,22 @@ class User extends Authenticatable
         'password',
         'alamat',
         'no_hp',
+        'id_poli',
         'role'
     ];
+
+    public function jadwalperiksa(){
+        return $this->hasMany(JadwalPeriksa::class, 'id_dokter');
+    }
+
+    public function daftarpoli(){
+        return $this->hasMany(DaftarPoli::class, 'id_pasien');
+    }
+
+    public function poli()
+    {
+        return $this->belongsTo(Poli::class, 'id_poli');
+    }
+
 
 }

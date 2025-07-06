@@ -31,6 +31,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="/dokter/jadwalperiksa" class="nav-link active">
+                        <i class="fas fa-stopwatch"></i>
+                            <p>Jadwal Periksa</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/dokter/periksa" class="nav-link active">
                         <i class="fas fa-stethoscope mr-2"></i>
                             <p>Memeriksa</p>
@@ -42,7 +48,20 @@
                             <p>obat</p>
                         </a>
                     </li>
-                @else 
+                    <li class="nav-item">
+                        <a href="/dokter/riwayat" class="nav-link active">
+                        <i class="fas fa-history mr-2"></i>
+                            <p>Riwayat</p>
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a href="/dokter/profil" class="nav-link active">
+                           <i class="fas fa-user-md"></i> 
+                            <p>Profil</p>
+                        </a>
+                    </li>
+
+                @elseif (request()->is('pasien*'))
                     <li class="nav-item">
                         <a href="/pasien" class="nav-link active">
                             <i class="fas fa-chart-line mr-2"></i>
@@ -50,15 +69,46 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('periksa.create.pasien') }}" class="nav-link active">
+                        <a href="{{ route('pasien.daftarpoli.index') }}" class="nav-link active">
                         <i class="fas fa-user-check mr-2"></i>
-                            <p>Periksa</p>
+                            <p>Daftar Poli</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('pasien.riwayat.index') }}" class="nav-link active">
                         <i class="fas fa-history mr-2"></i>
                             <p>Riwayat</p>
+                        </a>
+                    </li>
+                @elseif (request()->is('admin*'))
+                     <li class="nav-item">
+                        <a href="/admin" class="nav-link active">
+                        <i class="fas fa-chart-line mr-2"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/dokter" class="nav-link active">
+                       <i class="fas fa-user-md"></i>
+                            <p>Dokter</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/pasien" class="nav-link active">
+                        <i class="fas fa-user-injured"></i>
+                            <p>Pasien</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/obat" class="nav-link active">
+                        <i class="fas fa-pills mr-2"></i>
+                            <p>Obat</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/poli" class="nav-link active">
+                        <i class="fas fa-landmark"></i>
+                            <p>Poli</p>
                         </a>
                     </li>
                 @endif

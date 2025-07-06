@@ -5,61 +5,68 @@
 @endsection
 
 @section('content')
-
-    <table class="table table-bordered bg-white">
-        <thead>
+<div class="mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
+    <div class="p-4 bg-white shadow-sm sm:p-8 sm:rounded-lg">
+    <table class="table mt-6 overflow-hidden rounded table-hover">
+        <thead class="thead-light">
             <tr>
-                <th>No</th>
-                <th>Pasien</th>
-                <th>Dokter</th>
-                <th>Tanggal Periksa</th>
-                <th>Catatan</th>
-                <th>Biaya</th>
-                <th>Obat</th>
-                <th>Status</th>
-                <th>Aksi</th>
+                <th class="text-center">No Atrian</th>
+                <th class="text-center">Nama Pasien</th>
+                <th class="text-center">Keluhan</th>
+                <th class="text-center">Biaya Periksa</th>
+                <th class="text-center">Obat</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($periksas as $item)
+            @foreach ($daftarpoli as $daftar)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->pasien->name }}</td>
-                    <td>{{ $item->dokter->name }}</td>
-                    <td>{{ $item->tgl_periksa }}</td>
-                    <td>{{ $item->catatan }}</td>
-                    <td>Rp {{ number_format($item->biaya_periksa, 0, ',', '.') }}</td>
-                    <td>
-                        @if($item->obats && $item->obats->isNotEmpty())
-                            @foreach($item->obats as $obat)
+                    <td class="align-middle text-center">{{ $daftar->no_antrian }}</td>
+                    <td class="align-middle text-center">{{ $daftar->pasien->name }}</td>
+                    <td class="align-middle text-center">{{ $daftar->keluhan }}</td>
+                    <td class="align-middle text-center">
+                        Rp {{ number_format($daftar->periksa->biaya_periksa ?? 0, 0, ',', '.') }}
+                    </td>
+                    <td class="align-middle text-center">
+                        @if($daftar->periksa && $daftar->periksa->obats->isNotEmpty())
+                            @foreach($daftar->periksa->obats as $obat)
                                 <span class="badge bg-info text-dark">{{ $obat->name_obat }}</span><br>
                             @endforeach
                         @else
                             <span>Tidak ada obat</span>
                         @endif
                     </td>
-                    <td>
-                    <!-- Menampilkan status -->
-                    <span class="badge 
-                        @if($item->status == 'menunggu') 
-                            bg-danger text-dark 
-                        @elseif($item->status == 'selesai') 
-                            bg-success text-dark 
-                        @endif">
-                        {{ ucfirst($item->status) }}
-                    </span>
-                </td>
-                    <td>
-                        <a href="{{ route('periksa.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('periksa.destroy', $item->id) }}" method="POST" style="display:inline-block">
-                            @csrf
-                            @method('DELETE')
-                            <button onclick="return confirm('Yakin ingin menghapus data ini?')" class="btn btn-danger btn-sm">Hapus</button>
-                        </form>
+                    <td class="align-middle text-center">
+                        <span class="badge 
+                            @if(optional($daftar->periksa)->status == 'menunggu') 
+                                bg-danger text-dark 
+                            @elseif(optional($daftar->periksa)->status == 'selesai') 
+                                bg-success text-dark 
+                            @endif">
+                            {{ ucfirst(optional($daftar->periksa)->status ?? '-') }}
+                        </span>
+                    </td>
+                    <td class="align-middle text-center"> 
+                        @if ($daftar->periksa)
+                            <a href="{{ route('dokter.periksa.edit', $daftar->periksa->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        @else
+                            <a href="{{ route('dokter.periksa.create', $daftar->id) }}" class="btn btn-success btn-sm">Periksa</a>
+                        @endif
+                        @if ($daftar->periksa)
+                            <form action="{{ route('dokter.periksa.destroy', $daftar->periksa->id) }}" method="POST" style="display:inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button onclick="return confirm('Yakin ingin menghapus data ini?')" class="btn btn-danger btn-sm">Hapus</button>
+                            </form>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach
+
         </tbody>
     </table>
-
+    </div>
+</div>
 @endsection

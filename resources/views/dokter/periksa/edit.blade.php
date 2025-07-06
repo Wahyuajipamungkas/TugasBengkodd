@@ -5,9 +5,9 @@
 @endsection
 
 @section('content')
-    <form action="{{ route('periksa.update', $periksa->id) }}" method="POST">
-        @csrf
-        @method('PUT')
+   <form action="{{ route('dokter.periksa.update', $periksa->id) }}" method="POST">
+    @csrf
+    @method('PUT')
 
         <div class="form-group">
             <label>Pasien</label>
@@ -35,14 +35,6 @@
         {{ $obat->name_obat }} ({{ $obat->kemasan }}) - Rp{{ number_format($obat->harga) }}<br>
     @endforeach
 
-    <!-- Tambahkan status -->
-    <label>Status:</label>
-    <select name="status" class=".form-control-border.border-width-2">
-        <option value="menunggu" {{ $periksa->status == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
-        <option value="selesai" {{ $periksa->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-    </select>
-
-    <button type="submit">Simpan</button>
 
         <div class="form-group">
             <label>Tanggal Periksa</label>
@@ -58,8 +50,8 @@
             <label>Biaya Periksa</label>
             <input type="number" name="biaya_periksa" value="{{ $periksa->biaya_periksa }}" class="form-control" required>
         </div>
-
-        <button type="submit" class="btn btn-success">Update</button>
-        <a href="{{ route('periksa.index') }}" class="btn btn-secondary">Kembali</a>
+        <input type="hidden" name="status" value="selesai">
+         <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ route('dokter.periksa.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 @endsection

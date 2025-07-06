@@ -1,18 +1,15 @@
 @extends('layouts.app') 
-
-
-
 @section('content_header')
     <h1>Tambah Obat</h1>
 @endsection
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{route('obat.store')}}" method="POST">
+            <form action="{{route('dokter.obat.store')}}" method="POST">
                 @csrf {{-- harus ada di form untuk proteksi, biar gaada anomali--}}
                 <div class="form-group">
-                    <label for="nama">Nama obat</label>
-                    <input type="text" name="nama_obat" id="nama" placeholder="Nama obat" class="form-control" required>
+                    <label for="name">Nama obat</label>
+                    <input type="text" name="name_obat" id="name" placeholder="Name obat" class="form-control" required>
 
                 </div>
                 <div class="form-group">
@@ -29,7 +26,7 @@
                 </div>
                 <div class="wrappper d-flex justify-content-end" style="gap:10px;">
                     <button type="submit" class="btn btn-success">Tambah</button>
-                    <a href="{{route('obat.index')}}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{route('dokter.obat.index')}}" class="btn btn-secondary">Kembali</a>
                 </div>
             </form>
         </div>
